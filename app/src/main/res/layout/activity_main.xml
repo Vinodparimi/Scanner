@@ -6,11 +6,13 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/scannerImage"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:scaleType="centerCrop"
-        android:background="@android:color/darker_gray"/>
+        android:src="@drawable/scanner"
+        android:clickable="true"
+        android:focusable="true"/>
 
     <Button
         android:id="@+id/captureButton"

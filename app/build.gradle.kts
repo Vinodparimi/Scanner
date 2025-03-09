@@ -3,12 +3,12 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp") version "2.0.21-1.0.27"
-    alias(libs.plugins.google.gms.google.services)
+    id("com.google.gms.google-services") // Google services plugin
 }
 
 android {
     namespace = "com.example.s3388461"
-    compileSdk = 35
+    compileSdk = 34  // Ensure it's aligned with your target SDK
 
     defaultConfig {
         applicationId = "com.example.s3388461"
@@ -45,42 +45,54 @@ android {
 }
 
 dependencies {
-    // Core AndroidX Libraries
-    implementation("androidx.core:core-ktx:1.15.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-    implementation("androidx.activity:activity-compose:1.9.3")
+    // ✅ Core AndroidX Libraries
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.activity:activity-compose:1.8.2")
 
-    // Jetpack Compose BOM (Ensures Compatibility)
-    implementation(platform("androidx.compose:compose-bom:2024.11.00"))
+    // ✅ Jetpack Compose BOM
+    implementation(platform("androidx.compose:compose-bom:2024.02.00"))
     implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.navigation:navigation-compose:2.7.4")
-    implementation("androidx.compose.runtime:runtime-livedata:1.7.5")
 
-    // Firebase BOM (Manages Versions Automatically)
-    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+
+    // ✅ Material (NOT Material3)
+    implementation("androidx.compose.material:material")  // Fixes the theme issue
+
+    // ✅ Navigation Component for Jetpack Compose
+    implementation("androidx.navigation:navigation-compose:2.7.6")
+
+    // ✅ Firebase BOM (Ensures Latest Versions)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-analytics-ktx")
 
-    // DataStore (For Saving Preferences)
+    // ✅ DataStore for Preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-    // WorkManager (For Background Tasks)
+    // ✅ WorkManager for Background Tasks
     implementation("androidx.work:work-runtime-ktx:2.8.1")
 
-    // Coil (For Image Loading)
+    // ✅ Coil for Image Loading
     implementation("io.coil-kt:coil-compose:2.2.2")
 
-    // Material Icons (For Compose UI)
+    // ✅ Material Icons for Compose
     implementation("androidx.compose.material:material-icons-extended:1.5.1")
-    implementation(libs.firebase.auth)
 
-    // Testing Dependencies
+    // ✅ AppCompat Support
+    implementation("androidx.appcompat:appcompat:1.6.1")
+
+    // ✅ Play Services Authentication (for Google Sign-in)
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation(libs.androidx.material3.android)
+
+    // ✅ Testing Dependencies
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.3")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.5.3")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.3")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

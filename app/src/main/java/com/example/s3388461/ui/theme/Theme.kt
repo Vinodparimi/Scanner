@@ -7,7 +7,6 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-// Define Dark Theme Colors
 private val DarkColorScheme = darkColorScheme(
     primary = Color(0xFFBB86FC),
     secondary = Color(0xFF03DAC6),
@@ -19,7 +18,6 @@ private val DarkColorScheme = darkColorScheme(
     onSurface = Color.White
 )
 
-// Define Light Theme Colors
 private val LightColorScheme = lightColorScheme(
     primary = Color(0xFF6200EE),
     secondary = Color(0xFF03DAC6),
@@ -31,7 +29,6 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Color.Black
 )
 
-// Theme Function
 @Composable
 fun ScannerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

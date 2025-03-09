@@ -3,14 +3,22 @@ package com.example.s3388461.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.s3388461.pages.LoginPage
-import com.example.s3388461.pages.PrivacyPolicyPage
-import com.example.s3388461.pages.SplashScreen
+import androidx.navigation.navArgument
+import com.example.s3388461.pages.*
 import com.example.s3388461.viewmodels.AuthViewModel
-import com.example.s3388461.pages.SignupPage
+
+sealed class Screen(val route: String) {
+    object Splash : Screen("splash")
+    object Login : Screen("login")
+    object Signup : Screen("signup")
+    object PrivacyPolicy : Screen("privacyPolicy")
+    object Home : Screen("home")
+    object Scanner : Screen("scannerPage")
+}
 
 @Composable
 fun MyAppNavigation(
@@ -19,18 +27,38 @@ fun MyAppNavigation(
 ) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "splash") {
-        composable("splash") {
+    NavHost(navController = navController, startDestination = Screen.Splash.route) {
+
+        composable(Screen.Splash.route) {
             SplashScreen(navController = navController)
         }
-        composable("login") {
-            LoginPage(modifier = modifier, navController = navController, authViewModel = authViewModel)
+
+        composable(Screen.Login.route) {
+            LoginPage(
+                modifier = modifier,
+                navController = navController,
+                authViewModel = authViewModel
+            )
         }
-        composable("signup") {
-            SignupPage(modifier = modifier, navController = navController, authViewModel = authViewModel)
+
+        composable(Screen.Signup.route) {
+            SignupPage(
+                modifier = modifier,
+                navController = navController,
+                authViewModel = authViewModel
+            )
         }
-        composable("privacyPolicy") {
+
+        composable(Screen.PrivacyPolicy.route) {
             PrivacyPolicyPage(navController = navController)
+        }
+
+        composable(Screen.Home.route) {
+            HomePage(navController = navController)
+        }
+
+        composable(Screen.Scanner.route) {
+            ScannerPage(navController = navController)
         }
     }
 }

@@ -73,7 +73,9 @@ fun LoginPage(
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Toast.makeText(context, "Logged in successfully!", Toast.LENGTH_SHORT).show()
-                                navController.navigate("home")
+                                navController.navigate("home") {
+                                    popUpTo("login") { inclusive = true } // ✅ Prevents going back to login
+                                }
                             } else {
                                 Toast.makeText(context, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                             }
@@ -86,6 +88,7 @@ fun LoginPage(
         ) {
             Text(text = "Login")
         }
+
 
         Spacer(modifier = Modifier.height(8.dp))
 

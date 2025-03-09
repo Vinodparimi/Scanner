@@ -29,14 +29,16 @@ fun SignupPage(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    var isPrivacyPolicyAccepted by remember { mutableStateOf(false) } // Consent state
+    var isPrivacyPolicyAccepted by remember { mutableStateOf(false) }
 
     val authState by authViewModel.authState.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(authState) {
         when (authState) {
-            is AuthState.Authenticated -> navController.navigate("home")
+            is AuthState.Authenticated -> navController.navigate("home") {
+                popUpTo("signup") { inclusive = true }
+            }
             is AuthState.Error -> Toast.makeText(
                 context,
                 (authState as AuthState.Error).message,
@@ -109,7 +111,7 @@ fun SignupPage(
                 modifier = Modifier.padding(end = 4.dp)
             )
             TextButton(
-                onClick = { navController.navigate("privacyPolicy") } // Navigate to Privacy Policy
+                onClick = { navController.navigate("privacyPolicy") }
             ) {
                 Text("Privacy Policy")
             }
@@ -122,7 +124,7 @@ fun SignupPage(
             onClick = {
                 authViewModel.signup(email, password)
             },
-            enabled = isPrivacyPolicyAccepted && authState !is AuthState.Loading // Enabled only if accepted
+            enabled = isPrivacyPolicyAccepted && authState !is AuthState.Loading
         ) {
             if (authState is AuthState.Loading) {
                 CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)

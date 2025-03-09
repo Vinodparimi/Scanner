@@ -20,7 +20,7 @@ fun PrivacyPolicyPage(navController: NavController) {
         Text(text = "Privacy Policy", style = MaterialTheme.typography.headlineLarge)
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            text = "Detailed explanation about GDPR compliance, data collection, and user privacy.",
+            text = "GDPR compliance, data collection, and user privacy.",
             style = MaterialTheme.typography.bodyLarge
         )
         Spacer(modifier = Modifier.height(24.dp))
