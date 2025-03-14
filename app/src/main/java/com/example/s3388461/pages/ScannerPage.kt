@@ -1,16 +1,18 @@
 package com.example.s3388461.pages
 
+import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import android.os.Environment
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
@@ -18,22 +20,45 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.navigation.NavController
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScannerPage(navController: NavController) {
-    var capturedBitmap by remember { mutableStateOf<Bitmap?>(null) }
+    var capturedImage by remember { mutableStateOf<Bitmap?>(null) }
+    var pdfFilePath by remember { mutableStateOf<String?>(null) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    // Camera launcher
-    val launcher = rememberLauncherForActivityResult(
+    val context = LocalContext.current
+
+    // Define cameraLauncher BEFORE using it
+    val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicturePreview(),
         onResult = { bitmap ->
             if (bitmap != null) {
-                capturedBitmap = bitmap
+                capturedImage = bitmap
+                errorMessage = null // Reset error message
+            } else {
+                errorMessage = "Failed to capture image."
+            }
+        }
+    )
+
+// Permission request launcher
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            if (isGranted) {
+                cameraLauncher.launch() // Now this will work ✅
+            } else {
+                errorMessage = "Camera permission is required."
             }
         }
     )
@@ -41,63 +66,89 @@ fun ScannerPage(navController: NavController) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { capturedBitmap?.let { convertImageToPDF(it) } },
-                shape = RoundedCornerShape(50),
-                content = { Icon(Icons.Default.Star, contentDescription = "Convert to PDF") }
-            )
+                onClick = {
+                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        cameraLauncher.launch()
+                    } else {
+                        permissionLauncher.launch(Manifest.permission.CAMERA)
+                    }
+                }
+            ) {
+                Icon(Icons.Default.Star, contentDescription = "Capture Image")
+            }
         }
-    ) { innerPadding ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(paddingValues)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Scanner Page", style = MaterialTheme.typography.headlineMedium)
+            Text(text = "Scanner Page", style = MaterialTheme.typography.headlineLarge)
+
             Spacer(modifier = Modifier.height(16.dp))
 
-            capturedBitmap?.let { bitmap ->
-                Image(
-                    bitmap = bitmap.asImageBitmap(),
-                    contentDescription = "Captured Image",
-                    modifier = Modifier.size(250.dp)
-                )
+            capturedImage?.let { bitmap ->
+                Image(bitmap = bitmap.asImageBitmap(), contentDescription = "Captured Image", modifier = Modifier.size(250.dp))
+
                 Spacer(modifier = Modifier.height(16.dp))
+
+                Button(onClick = {
+                    pdfFilePath = saveImageAsPdf(context, bitmap)
+                }) {
+                    Text("Save as PDF")
+                }
             }
 
-            Button(onClick = { launcher.launch() }) {
-                Text("Capture Image")
+            pdfFilePath?.let { filePath ->
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = "PDF Saved Successfully!")
+
+                Button(onClick = {
+                    openPdf(context, filePath)
+                }) {
+                    Text("Open PDF")
+                }
+            }
+
+            errorMessage?.let {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = it, color = MaterialTheme.colorScheme.error)
             }
         }
     }
 }
 
-// ✅ Function to Convert Image to PDF
-fun convertImageToPDF(bitmap: Bitmap) {
-    try {
+// Function to Save Image as PDF
+fun saveImageAsPdf(context: Context, bitmap: Bitmap): String? {
+    return try {
         val pdfDocument = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(bitmap.width, bitmap.height, 1).create()
         val page = pdfDocument.startPage(pageInfo)
-
-        // Draw the image onto the PDF
         val canvas = page.canvas
         canvas.drawBitmap(bitmap, 0f, 0f, null)
         pdfDocument.finishPage(page)
 
-        // Define the file path
-        val pdfFile = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-            "scanned_image.pdf"
-        )
-
-        // Write the PDF file
-        val outputStream = FileOutputStream(pdfFile)
-        pdfDocument.writeTo(outputStream)
+        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "scanned_image.pdf")
+        pdfDocument.writeTo(FileOutputStream(file))
         pdfDocument.close()
-        outputStream.close()
 
-        Log.d("PDFConverter", "PDF saved at: ${pdfFile.absolutePath}")
+        file.absolutePath
     } catch (e: IOException) {
-        Log.e("PDFConverter", "Error converting image to PDF: ${e.localizedMessage}")
+        null
     }
+}
+
+// Function to Open PDF
+fun openPdf(context: Context, filePath: String) {
+    val file = File(filePath)
+    val uri: Uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.setDataAndType(uri, "application/pdf")
+    intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    context.startActivity(intent)
 }
