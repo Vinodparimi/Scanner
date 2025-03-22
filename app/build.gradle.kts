@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp") version "2.0.21-1.0.27"
-    id("com.google.gms.google-services") // Google services plugin
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -87,6 +87,7 @@ dependencies {
     // ✅ Play Services Authentication (for Google Sign-in)
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation(libs.androidx.material3.android)
+    implementation(libs.androidx.room.ktx)
 
     // ✅ Testing Dependencies
     testImplementation("junit:junit:4.13.2")
