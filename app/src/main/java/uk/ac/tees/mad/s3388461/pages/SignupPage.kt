@@ -1,4 +1,4 @@
-package com.example.s3388461.pages
+package uk.ac.tees.mad.s3388461.pages
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -15,8 +15,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.s3388461.viewmodels.AuthState
-import com.example.s3388461.viewmodels.AuthViewModel
+import uk.ac.tees.mad.s3388461.viewmodels.AuthState
+import uk.ac.tees.mad.s3388461.viewmodels.AuthViewModel
 
 @Composable
 fun SignupPage(

@@ -1,4 +1,4 @@
-package com.example.s3388461.pages
+package uk.ac.tees.mad.s3388461.pages
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button

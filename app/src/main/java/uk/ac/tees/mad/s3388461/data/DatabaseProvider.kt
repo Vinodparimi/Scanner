@@ -1,4 +1,4 @@
-package com.example.s3388461.data
+package uk.ac.tees.mad.s3388461.data
 
 import android.content.Context
 import androidx.room.Room

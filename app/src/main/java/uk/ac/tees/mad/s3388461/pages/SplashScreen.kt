@@ -1,4 +1,4 @@
-package com.example.s3388461.pages
+package uk.ac.tees.mad.s3388461.pages
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
@@ -13,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
-import com.example.s3388461.R
+import uk.ac.tees.mad.s3388461.R
 
 @Composable
 fun SplashScreen(navController: NavController) {

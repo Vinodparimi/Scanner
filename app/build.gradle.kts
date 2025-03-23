@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.s3388461"
+    namespace = "uk.ac.tees.mad.s3388461"
     compileSdk = 34  // Ensure it's aligned with your target SDK
 
     defaultConfig {
-        applicationId = "com.example.s3388461"
+        applicationId = "uk.ac.tees.mad.s3388461"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

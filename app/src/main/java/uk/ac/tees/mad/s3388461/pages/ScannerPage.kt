@@ -1,4 +1,4 @@
-package com.example.s3388461.pages
+package uk.ac.tees.mad.s3388461.pages
 
 import android.Manifest
 import android.content.Context

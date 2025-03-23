@@ -1,4 +1,4 @@
-package com.example.s3388461.ui.theme
+package uk.ac.tees.mad.s3388461.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,9 +1,10 @@
-package com.example.s3388461.data
+package uk.ac.tees.mad.s3388461.data
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import uk.ac.tees.mad.s3388461.data.ScannedImage
 
 @Dao
 interface ScannedImageDao {

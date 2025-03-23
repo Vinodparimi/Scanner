@@ -1,4 +1,4 @@
-package com.example.s3388461.viewmodels
+package uk.ac.tees.mad.s3388461.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

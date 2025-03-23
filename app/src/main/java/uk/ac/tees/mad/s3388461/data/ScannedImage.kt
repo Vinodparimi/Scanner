@@ -1,4 +1,4 @@
-package com.example.s3388461.data
+package uk.ac.tees.mad.s3388461.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

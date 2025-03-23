@@ -1,4 +1,4 @@
-package com.example.s3388461.data
+package uk.ac.tees.mad.s3388461.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

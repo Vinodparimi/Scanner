@@ -1,4 +1,4 @@
-package com.example.s3388461.navigation
+package uk.ac.tees.mad.s3388461.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,8 +8,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 
-import com.example.s3388461.pages.*
-import com.example.s3388461.viewmodels.AuthViewModel
+import uk.ac.tees.mad.s3388461.viewmodels.AuthViewModel
+import uk.ac.tees.mad.s3388461.pages.HomePage
+import uk.ac.tees.mad.s3388461.pages.LoginPage
+import uk.ac.tees.mad.s3388461.pages.PrivacyPolicyPage
+import uk.ac.tees.mad.s3388461.pages.ScannerPage
+import uk.ac.tees.mad.s3388461.pages.SignupPage
+import uk.ac.tees.mad.s3388461.pages.SplashScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
