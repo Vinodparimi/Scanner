@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "uk.ac.tees.mad.s3388461"
-    compileSdk = 34  // Ensure it's aligned with your target SDK
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "uk.ac.tees.mad.s3388461"
@@ -58,7 +58,7 @@ dependencies {
 
 
     // ✅ Material (NOT Material3)
-    implementation("androidx.compose.material:material")  // Fixes the theme issue
+    implementation("androidx.compose.material:material")
 
     // ✅ Navigation Component for Jetpack Compose
     implementation("androidx.navigation:navigation-compose:2.7.6")

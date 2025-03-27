@@ -38,13 +38,12 @@ fun ScannerPage(navController: NavController) {
 
     val context = LocalContext.current
 
-    // Define cameraLauncher BEFORE using it
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicturePreview(),
         onResult = { bitmap ->
             if (bitmap != null) {
                 capturedImage = bitmap
-                errorMessage = null // Reset error message
+                errorMessage = null
             } else {
                 errorMessage = "Failed to capture image."
             }

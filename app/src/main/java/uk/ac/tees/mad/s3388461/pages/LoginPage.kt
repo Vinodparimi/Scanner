@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 fun LoginPage(
     modifier: Modifier = Modifier,
     navController: NavController,
-    authViewModel: AuthViewModel // ✅ Add this parameter
+    authViewModel: AuthViewModel
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
