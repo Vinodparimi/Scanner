@@ -92,8 +92,11 @@ fun LoginPage(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextButton(onClick = { navController.navigate("signup") }) {
-            Text(text = "Don't have an account? Signup")
+        TextButton(onClick = {
+            navController.navigate("signup")
+        }) {
+            Text("Don't have an account? Sign up")
         }
+
     }
 }
