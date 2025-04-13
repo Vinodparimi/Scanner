@@ -92,7 +92,12 @@ class AuthViewModel : ViewModel() {
         _authState.value = AuthState.Unauthenticated
         Log.d("AuthViewModel", "User signed out")
     }
+
+    fun resetAuthState() {
+        _authState.value = AuthState.Unauthenticated
+    }
 }
+
 
 sealed class AuthState {
     object Unauthenticated : AuthState()

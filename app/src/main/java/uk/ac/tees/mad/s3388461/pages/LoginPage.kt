@@ -74,7 +74,7 @@ fun LoginPage(
                             if (task.isSuccessful) {
                                 Toast.makeText(context, "Logged in successfully!", Toast.LENGTH_SHORT).show()
                                 navController.navigate("home") {
-                                    popUpTo("login") { inclusive = true } // ✅ Prevents going back to login
+                                    popUpTo("login") { inclusive = true }
                                 }
                             } else {
                                 Toast.makeText(context, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
@@ -93,6 +93,7 @@ fun LoginPage(
         Spacer(modifier = Modifier.height(8.dp))
 
         TextButton(onClick = {
+            authViewModel.resetAuthState()
             navController.navigate("signup")
         }) {
             Text("Don't have an account? Sign up")

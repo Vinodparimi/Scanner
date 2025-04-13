@@ -55,7 +55,7 @@ fun ScannerPage(navController: NavController) {
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
             if (isGranted) {
-                cameraLauncher.launch() // Now this will work ✅
+                cameraLauncher.launch()
             } else {
                 errorMessage = "Camera permission is required."
             }
