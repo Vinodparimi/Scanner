@@ -1,5 +1,6 @@
 package uk.ac.tees.mad.s3388461.pages
 
+import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -119,9 +120,16 @@ fun SignupPage(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Create Account Button
         Button(
             onClick = {
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(context, "Please enter a valid email", Toast.LENGTH_SHORT).show()
+                    return@Button
+                }
+                if (password.length < 6) {
+                    Toast.makeText(context, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+                    return@Button
+                }
                 authViewModel.signup(email, password)
             },
             enabled = isPrivacyPolicyAccepted && authState !is AuthState.Loading
